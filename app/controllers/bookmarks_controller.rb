@@ -1,7 +1,8 @@
 class BookmarksController < ApplicationController
   before_action :set_list, only: [:create, :destroy]
-
+  
   def create
+    @list = List.find(params[:list_id])  # Make sure the list is found
     @bookmark = @list.bookmarks.new(bookmark_params)
 
     # Ensure the movie is properly associated before saving the bookmark
@@ -10,12 +11,17 @@ class BookmarksController < ApplicationController
       render 'lists/show' and return
     end
 
+    # Save the bookmark and check for errors
     if @bookmark.save
       redirect_to @list, notice: 'Bookmark was successfully added.'
     else
+      flash.now[:alert] = "Failed to add bookmark: " + @bookmark.errors.full_messages.to_sentence
       render 'lists/show'
     end
   end
+
+
+
 
   def destroy
     @bookmark = Bookmark.find(params[:id])

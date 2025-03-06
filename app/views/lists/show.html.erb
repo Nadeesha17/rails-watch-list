@@ -1,46 +1,66 @@
-<h1><%= @list.name %> Watch List</h1>
+<div class="container mt-5">
+  <div class="text-center">
+    <h1 class="display-4"><%= @list.name %> Watch List</h1>
+  </div>
 
-<h2>Bookmarks:</h2>
-<% if @list.bookmarks.any? %>
-  <ul>
-    <% @list.bookmarks.each do |bookmark| %>
-      <li>
-        <% if bookmark.movie.present? %>
-          <%= bookmark.movie.title %> - <%= bookmark.comment %>
-        <% else %>
-          <%= "Movie not found" %> - <%= bookmark.comment %>
-        <% end %>
+  <!-- Bookmarks Section -->
+  <h2 class="mt-4">Bookmarks:</h2>
+  <% if @list.bookmarks.any? %>
+    <div class="row">
+      <% @list.bookmarks.each do |bookmark| %>
+        <div class="col-md-4">
+          <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+            <% if bookmark.movie.present? %>
+              <img src="<%= bookmark.movie.poster_url || 'https://via.placeholder.com/300x450?text=No+Image' %>" class="card-img-top rounded" alt="Movie Poster">
+              <div class="card-body text-center">
+                <h5 class="card-title"><%= bookmark.movie.title %></h5>
+                <p class="card-text text-muted"><%= bookmark.comment %></p>
+              </div>
+            <% else %>
+              <div class="card-body text-center">
+                <h5 class="card-title">Movie not found</h5>
+                <p class="card-text text-muted"><%= bookmark.comment %></p>
+              </div>
+            <% end %>
 
+            <!-- Remove Button -->
+            <div class="card-footer text-center">
+              <%= button_to "Remove", list_bookmark_path(@list, bookmark), method: :delete, class: "btn btn-danger", data: { turbo: false, confirm: "Are you sure?" } %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted text-center">No bookmarks yet!</p>
+  <% end %>
 
-        <!-- Link to remove the bookmark -->
-
-<%= button_to "Remove", list_bookmark_path(@list, bookmark), method: :delete, data: { turbo: false, confirm: "Are you sure?" } %>
-
-
-      </li>
+  <!-- Add Bookmark Form -->
+  <div class="card shadow p-4 mt-5">
+    <h3 class="text-center mb-4">Add a Bookmark</h3>
+    <%= form_with(model: @bookmark, url: list_bookmarks_path(@list), method: :post, local: true, class: "row g-3") do |f| %>
+      <div class="col-md-6">
+        <%= f.collection_select :movie_id, Movie.all, :id, :title, { prompt: "Select a movie" }, class: "form-select" %>
+      </div>
+      <div class="col-md-6">
+        <%= f.text_area :comment, placeholder: "Add a comment", rows: 3, class: "form-control" %>
+      </div>
+      <div class="col-12 text-center">
+        <%= f.submit "Add Bookmark", class: "btn btn-primary px-4" %>
+      </div>
     <% end %>
-  </ul>
-<% else %>
-  <p>No bookmarks yet!</p>
-<% end %>
-
-<!-- Form to add a new bookmark -->
-<h3>Add a Bookmark</h3>
-<%= form_with(model: @bookmark, url: list_bookmarks_path(@list), method: :post, local: true) do |f| %>
-  <%= f.collection_select :movie_id, Movie.all, :id, :title, prompt: "Select a movie" %>
-  <%= f.text_area :comment, placeholder: "Add a comment", rows: 3 %>
-  <%= f.submit "Add Bookmark", class: "btn btn-primary" %>
-<% end %>
-
-<!-- Display Flash Messages -->
-<% if notice %>
-  <div class="alert alert-success">
-    <%= notice %>
   </div>
-<% end %>
 
-<% if flash[:alert] %>
-  <div class="alert alert-warning">
-    <%= flash[:alert] %>
-  </div>
-<% end %>
+  <!-- Flash Messages -->
+  <% if notice %>
+    <div class="alert alert-success mt-4 text-center">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="alert alert-warning mt-4 text-center">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+</div>
