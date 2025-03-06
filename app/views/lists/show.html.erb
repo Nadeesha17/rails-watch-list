@@ -5,10 +5,14 @@
   <ul>
     <% @list.bookmarks.each do |bookmark| %>
       <li>
-        <%= bookmark.movie.title %> - <%= bookmark.comment %>
+        <% if bookmark.movie.present? %>
+          <%= bookmark.movie.title %> - <%= bookmark.comment %>
+        <% else %>
+          <%= "Movie not found" %> - <%= bookmark.comment %>
+        <% end %>
 
         <!-- Link to remove the bookmark -->
-        <%= link_to 'Remove', list_bookmark_path(@list, bookmark), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%= link_to 'Remove', list_bookmark_path(@list, bookmark), method: :delete, data: { confirm: 'Are you sure?' } if bookmark.id.present? %>
       </li>
     <% end %>
   </ul>
@@ -30,4 +34,9 @@
     <%= notice %>
   </div>
 <% end %>
-<%= link_to "Drama", movie_path(@movie) %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-warning">
+    <%= flash[:alert] %>
+  </div>
+<% end %>

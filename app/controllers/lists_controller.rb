@@ -3,10 +3,12 @@ class ListsController < ApplicationController
     @lists = List.all  # Fetch all lists from the database
   end
 
+
   def show
-    @bookmark = Bookmark.new   # This is to create a new bookmark form
-    @bookmarks = @list.bookmarks   # This will fetch all bookmarks for the list
+    @list = List.find(params[:id])  # Find the list
+    @bookmark = Bookmark.new        # Initialize a new bookmark
   end
+
 
   def new
     @list = List.new  # Initialize a new List object for the form
@@ -29,12 +31,7 @@ end
 private
 
 def set_list
-  # Find the list by its ID
-  @list = List.find_by(id: params[:id])
-  # If the list doesn't exist, redirect or handle it accordingly
-  if @list.nil?
-    redirect_to lists_path, alert: "List not found."
-  end
+  @list = List.find(params[:id])  # Fetch the list using the id from the URL
 end
 
 

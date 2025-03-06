@@ -1,5 +1,5 @@
 import { Application } from "@hotwired/stimulus"
-
+//= require rails-ujs
 const application = Application.start()
 
 // Configure Stimulus development experience
