@@ -11,8 +11,12 @@
           <%= "Movie not found" %> - <%= bookmark.comment %>
         <% end %>
 
+
         <!-- Link to remove the bookmark -->
-        <%= link_to 'Remove', list_bookmark_path(@list, bookmark), method: :delete, data: { confirm: 'Are you sure?' } if bookmark.id.present? %>
+
+<%= button_to "Remove", list_bookmark_path(@list, bookmark), method: :delete, data: { turbo: false, confirm: "Are you sure?" } %>
+
+
       </li>
     <% end %>
   </ul>

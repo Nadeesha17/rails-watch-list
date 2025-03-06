@@ -18,9 +18,14 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
-    @bookmark = @list.bookmarks.find(params[:id])  # Ensure we are using @list.bookmarks.find
+    @bookmark = Bookmark.find(params[:id])
     @bookmark.destroy
-    redirect_to @list, notice: 'Bookmark was successfully removed.'
+
+    # If the request is a Turbo Stream request, respond with a Turbo Stream to remove the bookmark
+    respond_to do |format|
+      format.html { redirect_to @list, notice: 'Bookmark was successfully removed.' }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@bookmark) }
+    end
   end
 
   private
