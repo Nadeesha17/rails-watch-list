@@ -1,0 +1,7 @@
+<h1>Add a Bookmark to <%= @list.name %> List</h1>
+
+<%= simple_form_for [@list, @bookmark] do |f| %>
+  <%= f.input :movie_id, collection: Movie.all.collect { |movie| [movie.title, movie.id] }, prompt: "Choose a movie" %>
+  <%= f.input :comment %>
+  <%= f.submit "Add Bookmark" %>
+<% end %>

@@ -1,0 +1,11 @@
+<!-- app/views/lists/new.html.erb -->
+<h1>Create a New List</h1>
+
+<%= form_with(model: @list, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name, "List Name" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Create List", class: "btn btn-primary" %>
+<% end %>

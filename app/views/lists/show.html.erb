@@ -1,0 +1,33 @@
+<h1><%= @list.name %> Watch List</h1>
+
+<h2>Bookmarks:</h2>
+<% if @list.bookmarks.any? %>
+  <ul>
+    <% @list.bookmarks.each do |bookmark| %>
+      <li>
+        <%= bookmark.movie.title %> - <%= bookmark.comment %>
+
+        <!-- Link to remove the bookmark -->
+        <%= link_to 'Remove', list_bookmark_path(@list, bookmark), method: :delete, data: { confirm: 'Are you sure?' } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No bookmarks yet!</p>
+<% end %>
+
+<!-- Form to add a new bookmark -->
+<h3>Add a Bookmark</h3>
+<%= form_with(model: @bookmark, url: list_bookmarks_path(@list), method: :post, local: true) do |f| %>
+  <%= f.collection_select :movie_id, Movie.all, :id, :title, prompt: "Select a movie" %>
+  <%= f.text_area :comment, placeholder: "Add a comment", rows: 3 %>
+  <%= f.submit "Add Bookmark", class: "btn btn-primary" %>
+<% end %>
+
+<!-- Display Flash Messages -->
+<% if notice %>
+  <div class="alert alert-success">
+    <%= notice %>
+  </div>
+<% end %>
+<%= link_to "Drama", movie_path(@movie) %>
