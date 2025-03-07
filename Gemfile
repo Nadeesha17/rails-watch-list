@@ -51,3 +51,5 @@ group :development do
 end
 gem 'execjs'
 gem 'therubyracer', platforms: :ruby
+gem 'httparty'
+gem 'dotenv-rails', groups: [:development, :test]

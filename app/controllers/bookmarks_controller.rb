@@ -1,6 +1,6 @@
 class BookmarksController < ApplicationController
   before_action :set_list, only: [:create, :destroy]
-  
+
   def create
     @list = List.find(params[:list_id])  # Make sure the list is found
     @bookmark = @list.bookmarks.new(bookmark_params)
@@ -19,7 +19,6 @@ class BookmarksController < ApplicationController
       render 'lists/show'
     end
   end
-
 
 
 

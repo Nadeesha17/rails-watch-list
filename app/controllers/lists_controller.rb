@@ -1,4 +1,6 @@
 class ListsController < ApplicationController
+  include HTTParty
+
   def index
     @lists = List.all  # Fetch all lists from the database
   end
