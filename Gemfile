@@ -9,7 +9,7 @@ gem "importmap-rails" # JavaScript with ESM import maps
 gem "turbo-rails" # Hotwire's SPA-like page accelerator
 gem "stimulus-rails" # Hotwire's modest JavaScript framework
 gem "jbuilder" # Build JSON APIs
-gem "bootstrap", "~> 5.2"
+gem "bootstrap", "~> 5.3"
 gem "autoprefixer-rails"
 gem "font-awesome-sass", "~> 6.1"
 gem "simple_form"
