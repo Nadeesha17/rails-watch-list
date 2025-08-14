@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Rails and essential gems
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.0.2"
 # gem "propshaft" # The modern asset pipeline for Rails
 gem "pg", "~> 1.1" # PostgreSQL as the database for Active Record
 gem "puma", ">= 5.0" # Puma web server
